@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Arindam (Accenture Services Pvt Ltd) -->
+<!--
+=============================================================================================
+Interface Name: GL Response
+
+Version control
+===========
+
+v1.0		miguel.b.gutierrez@accenture.com     	19-Aug-2016		XSD file generated for GL Response Event present in D04d v1.2
+v1.1		miguel.b.gutierrez@accenture.com     	02-Sep-2016		Updated XSD with respect to v1.3 of D04d:
+                                                                                                1)“SAP RAR Document Type” field renamed to “Document Type”
+                                                                                                2)"iFRS15SAPRARContractId" to be changed to "iFRS15SAPRARContractID".
+v2.0		arindam.hazra@accenture.com     	        07-Oct-2016		1)"documentType" changed to "sAPRARDocumentType" with respect to v2.0 of D04d
+                                                                                                   
+v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)costFunctionalArea,wBSDimentions field introduced as per d04d v3.0
+
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" xmlns:tns="http://ifrs15.vodafone.com/events/glresponse_v3" targetNamespace="http://ifrs15.vodafone.com/events/glresponse_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<xs:import namespace="http://ifrs.vodafone.com/commonTypes_v3" schemaLocation="ifrs15_commontypes_v3.xsd"/>
+	<xs:element name="GLResponses">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header" type="com:fileHeaderComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Data" type="tns:gLResponsesComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Footer" type="com:fileFooterComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="gLResponsesComplexType">
+		<xs:sequence>
+			<xs:element name="gLResponse" type="tns:gLResponseComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gLResponseComplexType">
+		<xs:sequence>
+			<xs:element name="eventType" type="com:eventTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventDate" type="com:eventDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="FIDocumentList" type="tns:gLDocumentListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gLDocumentListComplexType">
+		<xs:sequence>
+			<xs:element name="FIDocument" type="tns:gLDocumentComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="gLDocumentComplexType">
+		<xs:sequence>
+			<xs:element name="gLDocumentID" type="com:gLDocumentIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="documentDate" type="com:documentDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sAPRARDocumentType" type="com:sAPRARDocumentTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="postingDate" type="com:postingDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="FIPostingItemList" type="tns:postingCategoryListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="postingCategoryListComplexType">
+		<xs:sequence>
+			<xs:element name="FIPostingItem" type="tns:postingCategoryComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="postingCategoryComplexType">
+		<xs:sequence>
+			<xs:element name="postingCategoryCode" type="com:postingCategoryCodeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="iFRS15SAPRARContractID" type="com:iFRS15SAPRARContractIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sAPRARPOBID" type="com:sAPRARPOBIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sourceCompanyCode" type="com:sourceCompanyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="conditionType" type="com:conditionTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="gLAccount" type="com:gLAccountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="accountDescription" type="com:accountDescriptionType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="debitCredit" type="com:debitCreditType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventContractID" type="com:eventContractIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="lMItemID" type="com:lMItemIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="iFRS15SynonymID" type="com:iFRS15SynonymIDType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MIAttributes" type="tns:mIAttributesComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="costCenter" type="com:costCenterType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="internalOrder" type="com:internalOrderType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="amountTC" type="com:amountTCType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="currencyTC" type="com:currencyType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="amountLC" type="com:amountLCType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="currencyLC" type="com:currencyLCType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="amountGC" type="com:amountGCType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="currencyGC" type="com:currencyGCType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="costFunctionalArea" type="com:costFunctionalAreaType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="wBSDimentions" type="com:wBSDimentionsType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="plannedGLComplexType">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:complexType name="mIAttributesComplexType">
+		<xs:sequence>
+			<xs:element name="customerType" type="com:customerTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="callOriginDestination" type="com:callOriginDestinationType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="channel" type="com:channelType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="segment" type="com:segmentType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="bearerTechnology" type="com:bearerTechnologyType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="valueTier" type="com:valueTierType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="proposition" type="com:propositionType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceTechnology" type="com:deviceTechnologyType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="customer" type="com:customerType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="spare1" type="com:spare1Type" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="spare2" type="com:spare2Type" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="brand" type="com:brandType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="documentType" type="com:documentTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="tradingPartner" type="com:tradingPartnerType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="batch" type="com:batchType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="valuationType" type="com:valuationTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="functionalArea" type="com:functionalAreaType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="orderNumber" type="com:orderNumberType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="salesOffice" type="com:salesOfficeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="salesOrg" type="com:salesOrgType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

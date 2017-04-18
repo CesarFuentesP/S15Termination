@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Arindam (Accenture Services Pvt Ltd) -->
+<!--
+=============================================================================================
+Interface Name: AddGoodsServices
+
+Version control
+===========
+v1.0		sachin.nayyar@accenture.com				18-May-2016		XSD file generated for Add Goods/Services Event present in D04d v0.12 Design Deliverable.
+																		19-May-2016		Changed rebateType,fundType,materialRightID fields to Mandatory as per review comments from Vodafone
+																		20-May-2016		Below changes made to sync up with v0.14 of D04d:
+																								Fields removed:iFRS15ChannelType,iFRS15ContractType,businessArea,subArea,financingDiscountRate,aPR in Device,
+																								pricePerExcess in Service
+																								Fields added: financingDiscountRate in Device,billingType in Device,billingType in Service,annualRebateValue in Rebate,
+																								annualRebateBasis in Rebate, leasingType in Leasing
+v1.1		m.ashok.ujjanakoppa@accenture.com  	    24-May-2016		Updated XSD with respect to D04d v.015,below is the change
+																									Annual Rebate Value field is made mandatory from conditional
+v1.2		m.ashok.ujjanakoppa@accenture.com	    25-May-2016		Updated XSD with respect to v.16 of D04d:
+																								    1)Update the name from "Discount" field to "Material Right Discount" in the Material Right Array
+																									2)"Material Right Time Unit" was removed from the Material Right Array 
+																									3)"Annual Rebate Basis" removed from Rebate Array
+																									4)"Rebate qualifying criteria" removed from Rebate Array
+																									5)"Subscriber services uptake Expected" removed from Tech Fund Array
+v1.3		m.ashok.ujjanakoppa@accenture.com	    27-May-2016		Updated XSD with respect to v.17 of D04d:
+																									1)Added 'indirectChannelTariffEqualisationFactor' element in Service Array
+																									2)Removed element 'materialRightDiscount' from Material Right array
+																									3)Added new 4 COPA dimensions
+																									 salesOr,salesOffice,orderNumber and functionalArea
+																									4)SSP in service array is changed from optional to mandatory
+v1.4		miguel.b.gutierrez@accenture.com		01-Jun-2016		Updated XSD with respect to v18 of D04d:
+																								1)Nillable = "false" removed from "Exclude from Allocation" and "Catch Up Indicatior", as they can be blank.
+			miguel.b.gutierrez@accenture.com  	    10-Jun-2016		No new impacts in Add Goods/Services XSD in the latest version of D04d v.019
+			miguel.b.gutierrez@accenture.com  	    01-Jul-2016		No new impacts in Add Goods/Services XSD in the latest version of D04d v1.0
+			miguel.b.gutierrez@accenture.com  	    05-Aug-2016		No new impacts in Add Goods/Services XSD in the latest version of D04d v1.1
+			miguel.b.gutierrez@accenture.com  	    19-Aug-2016		No new impacts in Add Goods/Services XSD in the latest version of D04d v1.2
+v1.5		miguel.b.gutierrez@accenture.com		02-Sep-2016		Updated XSD with respect to v1.3 of D04d:
+																								1)"Device Start Date" and "Device End Date" fields included in the Device Array
+v2.0		arindam.hazra@accenture.com			    07-Oct-2016		Updated XSD with respect to v2.0 of D04d:
+																								1)deviceTimeUnit and excludeFromAllocation added in device array  in the latest version of D04d v2.0
+                                                                                                2)activatedServices and serviceTransferDate and serviceType added in service array  in the latest version of D04d
+                                                                                                  v2.0
+                                                                                                3)Leasing array removed from Add Goods/Services XSD in the latest version of D04d v2.0
+                                                                                                4)Service Type and Service Transfer Date added in service array version of D04d v2.0
+                                                                                              
+v3.0   arindam.hazra@accenture.com			        31-jan-2017         1) Cost array introduced as per d04d v3.0
+                                                                                                  2)profitCenter included in cost Contract Level Array as per d04d v3.0
+
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" xmlns:tns="http://ifrs15.vodafone.com/events/addgoodsservices_v3" targetNamespace="http://ifrs15.vodafone.com/events/addgoodsservices_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<xs:import namespace="http://ifrs.vodafone.com/commonTypes_v3" schemaLocation="ifrs15_commontypes_v3.xsd"/>
+	<xs:element name="AddGoodsServices">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header" type="com:fileHeaderComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Data" type="tns:addGoodsServicesComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Footer" type="com:fileFooterComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="addGoodsServicesComplexType">
+		<xs:sequence>
+			<xs:element name="AddGoodsServices" type="tns:addGoodsServicesType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="addGoodsServicesType">
+		<xs:sequence>
+			<xs:element name="eventType" type="com:eventTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventDate" type="com:eventDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventContractID" type="com:eventContractIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="catchUpIndicator" type="com:catchUpIndicatorType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billingType" type="com:billingTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DeviceList" type="tns:deviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ServiceList" type="tns:serviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MIAttributes" type="tns:mIAttributesComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="currency" type="com:currencyType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="MaterialRightsList" type="tns:materialRightsListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="RebateList" type="tns:rebatesListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FundList" type="tns:fundsListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FeeList" type="tns:feeListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CostList" type="tns:CostListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Device" type="tns:deviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceComplexType">
+		<xs:sequence>
+			<xs:element name="deviceCode" type="com:deviceCodeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="deviceID" type="com:deviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="deviceTimeUnit" type="com:deviceTimeUnitType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceTransferDate" type="com:deviceTransferDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceStartDate" type="com:deviceStartDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceEndDate" type="com:deviceEndDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DeviceBillingProfile" type="tns:deviceBillingProfileComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="OneOffPayments" type="tns:oneOffPaymentListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="financingDiscountRate" type="com:financingDiscountRateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="lMSpecificMiDimensions" type="com:lMSpecificMiDimensionsType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MIAttributes" type="tns:mIAttributesComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="sSP" type="com:sSPType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="discountIndicator" type="com:discountIndicatorType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceQuantity" type="com:deviceQuantityType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="firstPlanBillingDate" type="com:firstPlanBillingDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="excludeFromAllocation" type="com:excludeFromAllocationType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billingType" type="com:billingTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Service" type="tns:serviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceComplexType">
+		<xs:sequence>
+			<xs:element name="serviceCode" type="com:serviceCodeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="serviceID" type="com:serviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="serviceTimeUnit" type="com:serviceTimeUnitType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="activatedServices" type="com:activatedServicesType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="serviceTransferDate" type="com:serviceTransferDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="serviceStartDate" type="com:serviceDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="serviceEndDate" type="com:serviceDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ServiceBillingProfile" type="tns:serviceBillingProfileComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="sSP" type="com:sSPType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="OneOffPayments" type="tns:oneOffPaymentListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="serviceEndDateEstimated" type="com:serviceEndDateEstimatedType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="lMSpecificMiDimensions" type="com:lMSpecificMiDimensionsType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MIAttributes" type="tns:mIAttributesComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="maxRolloverPeriod" type="com:maxRolloverPeriodType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="discountIndicator" type="com:discountIndicatorType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="inbundleAllowanceValue" type="com:inbundleAllowanceValueType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="inbundleAllowanceType" type="com:inbundleAllowanceTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="serviceQuantity" type="com:serviceQuantityType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="firstPlanBillingDate" type="com:firstPlanBillingDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="excludeFromAllocation" type="com:excludeFromAllocationType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billingType" type="com:billingTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="indirectChannelTariffEqualisationFactor" type="com:indirectChannelTariffEqualisationFactorType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="serviceType" type="com:serviceTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mIAttributesComplexType">
+		<xs:sequence>
+			<xs:element name="customerType" type="com:customerTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="callOriginDestination" type="com:callOriginDestinationType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="channel" type="com:channelType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="segment" type="com:segmentType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="bearerTechnology" type="com:bearerTechnologyType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="valueTier" type="com:valueTierType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="proposition" type="com:propositionType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceTechnology" type="com:deviceTechnologyType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="customer" type="com:customerType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="spare1" type="com:spare1Type" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="spare2" type="com:spare2Type" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="brand" type="com:brandType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="documentType" type="com:documentTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="tradingPartner" type="com:tradingPartnerType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="batch" type="com:batchType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="valuationType" type="com:valuationTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="functionalArea" type="com:functionalAreaType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="orderNumber" type="com:orderNumberType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="salesOffice" type="com:salesOfficeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="salesOrg" type="com:salesOrgType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="materialRightsListComplexType">
+		<xs:sequence>
+			<xs:element name="MaterialRight" type="tns:materialRightsComplexType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="materialRightsComplexType">
+		<xs:sequence>
+			<xs:element name="materialRightCode" type="com:materialRightCodeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="materialRightID" type="com:materialRightIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="materialRightStartDate" type="com:materialRightDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="materialRightEndDate" type="com:materialRightDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="materialRightValue" type="com:materialRightValueType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="likelihoodOfExcercise" type="com:likelihoodOfExcerciseType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="timeLimit" type="com:timeLimitType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="lMSpecificMiDimensions" type="com:lMSpecificMiDimensionsType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="MIAttributes" type="tns:mIAttributesComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="rebatesListComplexType">
+		<xs:sequence>
+			<xs:element name="Rebate" type="tns:rebateComplexType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="rebateComplexType">
+		<xs:sequence>
+			<xs:element name="rebateID" type="com:rebateIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="rebateStartDate" type="com:rebateDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="rebateEndDate" type="com:rebateDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="annualRebateValue" type="com:annualRebateValueType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="rebateType" type="com:rebateTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fundsListComplexType">
+		<xs:sequence>
+			<xs:element name="Fund" type="tns:fundComplexType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fundComplexType">
+		<xs:sequence>
+			<xs:element name="fundID" type="com:fundIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fundStartDate" type="com:fundDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fundEndDate" type="com:fundDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fundType" type="com:fundTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fundAmount" type="com:fundAmountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="amountOfTechFundUtilisedByCustomerExpected" type="com:amountOfTechFundUtilisedByCustomerExpectedType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="feeListComplexType">
+		<xs:sequence>
+			<xs:element name="Fee" type="tns:feeComplexType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="feeComplexType">
+		<xs:sequence>
+			<xs:element name="feeID" type="com:feeIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="feeType" type="com:feeTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="feeAmount" type="com:feeAmountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="oneOffPaymentComplexType">
+		<xs:sequence>
+			<xs:element name="oneOffPaymentType" type="com:oneOffPaymentTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="oneOffPaymentAmount" type="com:oneOffPaymentAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="oneOffPaymentListComplexType">
+		<xs:sequence>
+			<xs:element name="OneOffPayment" type="tns:oneOffPaymentComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceBillingProfileComplexType">
+		<xs:sequence>
+			<xs:element name="billingAmount" type="com:billingAmountType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceBillingProfileComplexType">
+		<xs:sequence>
+			<xs:element name="billingAmount" type="com:billingAmountType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostListComplexType">
+		<xs:sequence>
+			<xs:element name="Cost" type="tns:CostComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostComplexType">
+		<xs:sequence>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="costTransferDate" type="com:costTransferDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ContractLevels" type="tns:ContractLevelListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="POBLevels" type="tns:POBLevelListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractLevelListComplexType">
+		<xs:sequence>
+			<xs:element name="ContractLevel" type="tns:ContractLevelComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractLevelComplexType">
+		<xs:sequence>
+			<xs:element name="costCode" type="com:costCodeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="costID" type="com:costIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="costAmount" type="com:costAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pOBName" type="com:pOBNameType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="costStartDate" type="com:costStartDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="costEndDate" type="com:costEndDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="profitCenter" type="com:profitCenterType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="costCenter" type="com:costCenterType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="internalOrder" type="com:internalOrderType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="costFunctionalArea" type="com:costFunctionalAreaType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="wBSDimentions" type="com:wBSDimentionsType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="lMSpecificMiDimensions" type="com:lMSpecificMiDimensionsType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MIAttributes" type="tns:mIAttributesComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AmountListComplexType">
+		<xs:sequence>
+			<xs:element name="Amount" type="tns:AmountComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AmountComplexType">
+		<xs:sequence>
+			<xs:element name="costAmount" type="com:costAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="costType" type="com:costTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="referenceAccount" type="com:referenceAccountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="POBLevelListComplexType">
+		<xs:sequence>
+			<xs:element name="POBLevel" type="tns:POBLevelComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="POBLevelComplexType">
+		<xs:sequence>
+			<xs:element name="serviceIDDeviceID" type="com:serviceIDDeviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Amounts" type="tns:AmountListComplexType" nillable="false" minOccurs="1" maxOccurs="2"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

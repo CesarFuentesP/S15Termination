@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Arindam (Accenture Services Pvt Ltd) -->
+<!--
+=============================================================================================
+Interface Name: BillRunReconciliation
+
+Version control
+===========
+v1.0		m.ashok.ujjanakoppa@accenture.com	13-May-2016		XSD file generated for Bill Run Reconciliation Event present in D04d v.11 Design Deliverable.
+v1.1		m.ashok.ujjanakoppa@accenture.com	17-May-2016		1)Implemented Vodafone review comments on version control for below details
+																								  Interface Name is corrected,Delivery date and comments are updated for v1.0 of this XSD
+																		19-May-2016		2)billingType and deviceQuantity fields are added in Device Array
+																								3)billingType field is added in Service Array
+																								4)feeComplexType is added in BillRunReconcilation Type
+																								5) corrected typo errors in element name of complextype billRunReconciliationsComplexType
+																									BillRunReconcilation -> BillRunReconciliation
+																								6)corrected typo error in element name and its common type 
+																									materialRightIDInBundleBillingAmount to materialRightInBundleBillingAmount
+																									Typo Error correction pobNameType -> pOBNameType
+																		20-May-2016		7)PaymentDueDate field is removed from contract level detais as well as Device,Service,Rebate,TechFund and Fee arrays
+																								8)MaterialRght array is removed from the Event structure
+																								9)OutBundle Array is added to Event structure with below fields
+																								   OutBundleID, OutBundlestartdate,OutBundleenddate,OutBundleBillingTotalAmount,Profit Center,Reference Account,POB Name	
+v1.2		m.ashok.ujjanakoppa@accenture.com  	24-May-2016		Updated XSD with respect to the latest version of D04d v.015	
+																								TechFundList is replaced with the FundList
+			m.ashok.ujjanakoppa@accenture.com  	25-May-2016		No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v.016
+v1.3		m.ashok.ujjanakoppa@accenture.com  	27-May-2016		Updated XSD with respect to the latest version of D04d v.017.
+																								1)Company Code at contract level is changed from mandatory to conditional
+																								2)Removed OUTBUNDLE array from the event structure
+			miguel.b.gutierrez@accenture.com  	     01-Jun-2016	    No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v.018
+			miguel.b.gutierrez@accenture.com  	     10-Jun-2016	    No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v.019
+			miguel.b.gutierrez@accenture.com  	      01-Jul-2016	    No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v1.0
+			miguel.b.gutierrez@accenture.com  	     05-Aug-2016		No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v1.1
+			miguel.b.gutierrez@accenture.com  	     19-Aug-2016		No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v1.2
+			miguel.b.gutierrez@accenture.com  	     02-Sep-2016		No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v1.3
+ v2.0		arindam.hazra@accenture.com  	             07-Oct-2016		No new impacts in Bill Run Reconciliation XSD in the latest version of D04d v2.0
+                                                                                                  
+v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)Cost array introduced as per d04d v3.0
+
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" xmlns:tns="http://ifrs15.vodafone.com/events/billrunreconciliation_v3" targetNamespace="http://ifrs15.vodafone.com/events/billrunreconciliation_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<xs:import namespace="http://ifrs.vodafone.com/commonTypes_v3" schemaLocation="ifrs15_commontypes_v3.xsd"/>
+	<xs:element name="BillRunReconciliations">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header" type="com:fileHeaderComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Data" type="tns:billRunReconciliationsComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Footer" type="com:fileFooterComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="billRunReconciliationsComplexType">
+		<xs:sequence>
+			<xs:element name="BillRunReconciliation" type="tns:billRunReconciliationComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="billRunReconciliationComplexType">
+		<xs:sequence>
+			<xs:element name="eventType" type="com:eventTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventDate" type="com:eventDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventContractID" type="com:eventContractIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="billingType" type="com:billingTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="currency" type="com:currencyType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="invoiceNumber" type="com:invoiceNumberType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DeviceList" type="tns:deviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ServiceList" type="tns:serviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="RebateList" type="tns:rebatesListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FundList" type="tns:fundsListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FeeList" type="tns:feesListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CostList" type="tns:CostListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Device" type="tns:deviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceComplexType">
+		<xs:sequence>
+			<xs:element name="deviceID" type="com:deviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="deviceInBundleBillingAmount" type="com:deviceInBundleBillingAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billingType" type="com:billingTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deviceQuantity" type="com:deviceQuantityType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Service" type="tns:serviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceComplexType">
+		<xs:sequence>
+			<xs:element name="serviceID" type="com:deviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="serviceInBundleBillingAmount" type="com:serviceInBundleBillingAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billingType" type="com:billingTypeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="rebatesListComplexType">
+		<xs:sequence>
+			<xs:element name="Rebate" type="tns:rebateComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="rebateComplexType">
+		<xs:sequence>
+			<xs:element name="rebateID" type="com:rebateIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="rebateAmount" type="com:rebateAmountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fundsListComplexType">
+		<xs:sequence>
+			<xs:element name="Fund" type="tns:fundComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fundComplexType">
+		<xs:sequence>
+			<xs:element name="fundID" type="com:fundIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fundAmount" type="com:fundAmountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="feesListComplexType">
+		<xs:sequence>
+			<xs:element name="Fee" type="tns:feeComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="feeComplexType">
+		<xs:sequence>
+			<xs:element name="feeID" type="com:fundIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="feeAmount" type="com:fundAmountType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostListComplexType">
+		<xs:sequence>
+			<xs:element name="Cost" type="tns:CostComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostComplexType">
+		<xs:sequence>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="billDate" type="com:billDateType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ContractLevels" type="tns:ContractLevelListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="POBLevels" type="tns:POBLevelListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractLevelListComplexType">
+		<xs:sequence>
+			<xs:element name="ContractLevel" type="tns:ContractLevelComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractLevelComplexType">
+		<xs:sequence>
+			<xs:element name="costID" type="com:costIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="invoicedCostAmount" type="com:invoicedCostAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AmountListComplexType">
+		<xs:sequence>
+			<xs:element name="Amount" type="tns:AmountComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AmountComplexType">
+		<xs:sequence>
+			<xs:element name="invoicedCostAmount" type="com:invoicedCostAmountType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="costType" type="com:costTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="POBLevelListComplexType">
+		<xs:sequence>
+			<xs:element name="POBLevel" type="tns:POBLevelComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="POBLevelComplexType">
+		<xs:sequence>
+			<xs:element name="serviceIDDeviceID" type="com:serviceIDDeviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Amounts" type="tns:AmountListComplexType" nillable="false" minOccurs="1" maxOccurs="2"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

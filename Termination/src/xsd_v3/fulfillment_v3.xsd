@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Miguel Gutierrez (Accenture) -->
+<!--
+=============================================================================================
+Interface Name: Fulfilment
+
+Version control
+===========
+v1.0		m.ashok.ujjanakoppa@accenture.com 	13-May-2016 	XSD file generated for Fulfilment Event present in D04d v.11 Design Deliverable.
+v1.1		m.ashok.ujjanakoppa@accenture.com	17-May-2016		1)Implemented Vodafone review comments on version control for below details
+																								  Interface Name is corrected,Delivery date and comments are updated for v1.0 of this XSD
+			m.ashok.ujjanakoppa@accenture.com	19-May-2016		2) Corrected event name from fulfillment to fulfilment in XSD name and inside XSD
+			m.ashok.ujjanakoppa@accenture.com  	20-May-2016		No new impacts in Fulfilment XSD in the latest version of D04d v.014
+			m.ashok.ujjanakoppa@accenture.com  	24-May-2016		No new impacts in Fulfilment XSD in the latest version of D04d v.015	
+			m.ashok.ujjanakoppa@accenture.com  	25-May-2016		No new impacts in Fulfilment XSD in the latest version of D04d v.016
+			m.ashok.ujjanakoppa@accenture.com  	27-May-2016		No new impacts in Fulfilment XSD in the latest version of D04d v.017
+			miguel.b.gutierrez@accenture.com  	    01-Jun-2016		No new impacts in Fulfilment XSD in the latest version of D04d v.018
+			miguel.b.gutierrez@accenture.com  	    10-Jun-2016		No new impacts in Fulfilment XSD in the latest version of D04d v.019
+			miguel.b.gutierrez@accenture.com  	     01-Jul-2016		No new impacts in Fulfilment XSD in the latest version of D04d v1.0
+			miguel.b.gutierrez@accenture.com  	    05-Aug-2016		No new impacts in Fulfilment XSD in the latest version of D04d v1.1
+			miguel.b.gutierrez@accenture.com  	    19-Aug-2016		No new impacts in Fulfilment XSD in the latest version of D04d v1.2
+			miguel.b.gutierrez@accenture.com  	    02-Sep-2016		No new impacts in Fulfilment XSD in the latest version of D04d v1.3
+v2.0        arindam.hazra@accenture.com  	        07-Oct-2016		No new impacts in Fulfilment XSD in the latest version of D04d v2.0
+v3.0	    sameer.b.jain@accenture.com        		03-Feb-2017		No new impacts in Fulfilment XSD in the latest version of D04d v3.0
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" xmlns:tns="http://ifrs15.vodafone.com/events/fulfilment_v3" targetNamespace="http://ifrs15.vodafone.com/events/fulfilment_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<xs:import namespace="http://ifrs.vodafone.com/commonTypes_v3" schemaLocation="ifrs15_commontypes_v3.xsd"/>
+	<xs:element name="Fulfilments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header" type="com:fileHeaderComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Data" type="tns:fulfilmentsComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Footer" type="com:fileFooterComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="fulfilmentsComplexType">
+		<xs:sequence>
+			<xs:element name="Fulfilment" type="tns:fulfilmentComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fulfilmentComplexType">
+		<xs:sequence>
+			<xs:element name="eventType" type="com:eventTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventDate" type="com:eventDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventContractID" type="com:eventContractIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="deliveryNumber" type="com:deliveryNumberType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DeviceList" type="tns:deviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ServiceList" type="tns:serviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MaterialRightsList" type="tns:materialRightsListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Device" type="tns:deviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceComplexType">
+		<xs:sequence>
+			<xs:element name="deviceID" type="com:deviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="deviceQuantity" type="com:deviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Service" type="tns:serviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceComplexType">
+		<xs:sequence>
+			<xs:element name="serviceID" type="com:serviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="serviceQuantity" type="com:serviceQuantityType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="materialRightsListComplexType">
+		<xs:sequence>
+			<xs:element name="MaterialRight" type="tns:materialRightsComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="materialRightsComplexType">
+		<xs:sequence>
+			<xs:element name="materialRightID" type="com:materialRightIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

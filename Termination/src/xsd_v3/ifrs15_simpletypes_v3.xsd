@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Miguel Gutierrez (Accenture) -->
+<!--
+=============================================================================================
+Interface Name: SimpleTypes
+
+Version control
+===========
+v0.1		matthew.a.croxon@accenture.com			11-May-2016		Initial Version based on D04d v0.8
+v1.0		m.ashok.ujjanakoppa@accenture.com	13-May-2016		Made it in sync with D04d v0.11
+v1.1		m.ashok.ujjanakoppa@accenture.com	17-May-2016		Implemented Vodafone review comments on version control for below details:
+																								Corrected Interface Name, Delivery date and comments for v1.0 of this XSD
+			sachin.nayyar@accenture.com				18-May-2016		Corrected maxLength of 'string3' to 3 instead of 30
+			m.ashok.ujjanakoppa@accenture.com	20-May-2016 	No new impacts in IFRS15SimpleTypes in the latest version of D04d v.014
+			m.ashok.ujjanakoppa@accenture.com  	24-May-2016		No new impacts in IFRS15SimpleTypes in the latest version of D04d v.015
+			m.ashok.ujjanakoppa@accenture.com	25-May-2016		No new impacts in IFRS15SimpleTypes in the latest version of D04d v.016
+v1.2		m.ashok.ujjanakoppa@accenture.com	27-May-2016		Updated XSD with respect to v17 of D04d.
+																								Added below simple types:
+																								1)string16
+																								2)string12
+v1.3		miguel.b.gutierrez@accenture.com			01-Jun-2016		Updated XSD with respect to v18 of D04d:
+																								1)Exclude from Allocation possible values changed from "Yes/No" to "X"
+																								   Catch Up possible values changed from "Yes/No" to "X"
+																								2)Definition of decimal(23) and decimal(5) updated.
+			miguel.b.gutierrez@accenture.com  	    10-Jun-2016		No new impacts in IFRS15 Symple Types XSD in the latest version of D04d v.019
+			miguel.b.gutierrez@accenture.com  	     01-Jul-2016		No new impacts in IFRS15 Symple Types XSD in the latest version of D04d v1.0
+			miguel.b.gutierrez@accenture.com  	    05-Aug-2016		No new impacts in IFRS15 Symple Types XSD in the latest version of D04d v1.1
+v1.4		miguel.b.gutierrez@accenture.com			19-Aug-2016		Updated XSD with respect to v1.2 of D04d:
+																								1)Simple Type "string1" included
+																								2)Simple Type "string14" included
+			miguel.b.gutierrez@accenture.com  	    02-Sep-2016		No new impacts in IFRS15 Symple Types XSD in the latest version of D04d v1.3
+v2.0		arindam.hazra@accenture.com  	            07-Oct-2016		No new impacts in IFRS15 Symple Types XSD in the latest version of D04d v2.0
+v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)Simple Type "string24" included 
+
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:sim="http://ifrs.vodafone.com/simpleTypes_v3" targetNamespace="http://ifrs.vodafone.com/simpleTypes_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<!-- =============== String types ================== -->
+	<xs:simpleType name="percent">
+		<xs:annotation>
+			<xs:documentation>The percent type specifies a percentage from 0 to 100.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="decimalPoints">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="decimal23">
+		<xs:restriction base="sim:decimalPoints">
+			<xs:totalDigits value="23"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="decimal5">
+		<xs:restriction base="sim:decimalPoints">
+			<xs:totalDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="x">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="X"/>
+			<xs:enumeration value="x"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string255">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string15">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="dateTime">
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="date">
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="string4">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string16">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string12">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string6">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string10">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string2">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string20">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string30">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string3">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string40">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="gYearMonth">
+		<xs:restriction base="xs:token">
+			<xs:length value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string1">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string14">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string24">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="24"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

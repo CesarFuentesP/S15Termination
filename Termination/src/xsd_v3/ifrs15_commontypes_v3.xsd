@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Miguel Gutierrez (Accenture) -->
+<!--
+=============================================================================================
+Interface Name: CommonTypes
+
+Version control
+===========
+v0.1		matthew.a.croxon@accenture.com			11-May-2016			Initial Version based on D04d v0.8
+v1.0		m.ashok.ujjanakoppa@accenture.com	13-May-2016			Made it in sync with D04d v0.11. Updated structures of Header & Footer 
+v1.1		m.ashok.ujjanakoppa@accenture.com	17-May-2016			Implemented Vodafone review comments on version control
+			sachin.nayyar@accenture.com				18-May-2016			1)	Below common types added for new events
+																										(RemoveGoods, AddGoodsServices and SapRarResponse event): with respect to v.11 of D04d
+																									removeDateType,feeIDType,feeTypeType,feeAmountType,revenueMonthType,revenueAmountType,
+																									plannedMonthType,plannedAmountType,iFRS15SAPRARContractIdType,DateType
+																		19-May-2016			2)leasingTypeType commontype added to align with latest version of D04d v0.12
+																									Typo Error correction materialRightIDInBundleAmountType - > materialRightInBundleBillingAmountType
+																									Typo Error correction pobNameType -> pOBNameType
+																		20-May-2016			3)Updated CommonTypes XSD with respect to v.14 of D04d
+																										Common type aPRType is removed as it is removed from Inception and AddGoodsServices event XSd
+																										Below common types are added as a result of addition of OutBundle array in BillRunReconciliation Event
+																										outBundleIDType,outBundleDateType,outBundleBillingTotalAmount
+v1.2		m.ashok.ujjanakoppa@accenture.com	24-May-2016			Updated XSD with respect to D04d v15
+																									1)Annual Rebate Value data type changed from Currency to Decimal(23,2)
+																									2)Common types for new elements for below events are added with respect to D04dv15
+																									-Usage [eg:serviceConsumptionUsageValueType,serviceConsumptionUsageTypeType,serviceConsumptionUsageDateType]
+																									-Update [eg:iFRS15SynonymType]
+																									-Contract Freeze [eg:revisedServiceEndDateType,freezeEndDateType]
+																									- SAP RAR Revenue Response [ eg: iFRS15SAPRARContractIDType]
+v1.3		m.ashok.ujjanakoppa@accenture.com	25-May-2016			Updated CommonTypes XSD with respect to v.16 of D04d,below are the changes
+																									1) Update the name of common type "discountType" to "Material Right Discount" 
+																									2)"materialRightTimeUnitTpe" common type is removed .
+																									3)"annualRebateBasisType" common type is  removed .
+																									4)"rebateQualifyingCriteriaType" common type is removed.
+       																							    5)"subscriberServicesUptakeExpectedType" common type  is removed .
+								         															6)"effectivePriceChangeDateType" common type is added.
+																									7)"iFRS15 SynonymTpe" common type is removed
+v1.4 		m.ashok.ujjanakoppa@accenture.com	27-May-2016			Updated the following CommonTypes with respect to v.17 of D04d:
+																									1)Removed 'materialRightDiscountType' common type
+																									2)Removed 'iFRS15ChannelTypeType' common type
+																									3)Added 'indirectChannelTariffEqualisationFactorType' common type
+																									4)Removed 'freezeEndDateType' common type													
+																									5)Added below common types for SAP RAR REVENUE RESPONSE Event:
+																										sAPRARDeviceIDType
+																										sAPRARServiceIDType
+																										sAPRARMaterialRightIDType
+																										sAPRARFeeIDType	
+																										sAPRARFundIDType
+																										sAPRARLeasingIDType
+																										sAPRARRebateIDType
+																										pOBTypeType
+																										effectiveQuantityType
+																										fulfilmentQuantityType
+																									6)Added revisedServiceEndDateType common type
+																									7)Added new 4 common types for COPA dimensions:
+																										salesOrgType,salesOfficeType,orderNumberType and functionalAreaType
+																									8)Common type serviceConsumptionUsageType is changed from string255 to string3 simpletype
+																									9)Added below common types as per SAP RAR Response Event
+																											amountLCType,currencyLCType,amountGCType,currencyGCType,periodType,
+																											pOBType,effectiveQuantityType,fulfilmentQuantityType
+																									10)Removed the below common types 
+																											outBundleIDType,outBundleDateType,outBundleBillingTotalAmountType
+																									
+v1.5		miguel.b.gutierrez@accenture.com			01-Jun-2016		Updated XSD with respect to v18 of D04d:
+																								1)All dates has been set to "sim:date" except Event Date, which is sent to "sim:dateTime" (timestamp)
+																								2)Exclude from Allocation possible values changed from "Yes/No" to "X"
+																								   Catch Up possible values changed from "Yes/No" to "X"
+																								3)iFRS15SAPRARContractID changed from string(255) to string(20)
+																								4) Invoice Number changed from string(40) to string(20)
+																								5) contractTimeUnitType, billingTypeType, serviceTimeUnitType, contractFreezeTypeType list of values removed
+ 																								6) Header of the XSD file updated, including the description of each of the fields.
+																								7)Period type changed from Date to gYearMonth.
+			miguel.b.gutierrez@accenture.com  	    10-Jun-2016		No new impacts in IFRS15 Common Types XSD in the latest version of D04d v.019
+v1.6		miguel.b.gutierrez@accenture.com			 01-Jul-2016		Updated XSD with respect to v1.0 of D04d:
+																								1)Common Type "serviceUsageTypeType" added
+																								2)Length of "customerType" changed from string(2) to string(3)
+v1.7		miguel.b.gutierrez@accenture.com			 05-Aug-2016		Updated XSD with respect to v1.1 of D04d:
+																								1)"createdAt" field of the header changed from "string" to "dateTime"
+																								2)Offset removed from the description of field "createdAt"
+																								3)fileSequenceID field of the header changed from "string" to "integer"
+																								4)Description of "sourceOpco" field of the header updated to reflect the Country Code (e.g. de, pt, cz, uk) and not the Company Code. 
+                                                                                                   Country Code ISO3166 - Alpha-2 code to be used in lowercase.
+																								5)"numberRecords" field of the footer changed from "string" to "integer"
+v1.8		miguel.b.gutierrez@accenture.com			 19-Aug-2016		Updated XSD with respect to v1.2 of D04d:
+																								1)Following Common Types added for the GL Response Event:
+                                                                                                   gLDocumentIDType, postingCategoryNameType, conditionTypeType, gLAccountType, gLDocumentType,
+                                                                                                   accountDescriptionType,
+                                                                                                   debitCreditType, postingDateType, documentDateType, costCenterType, internalOrderType, 
+                                                                                                   legacyContractIDType, amountTC, lMItemIDType, sAPRARPOBIDType, currencyTC
+																								2)Country Code to be used as part of "sourceOpco" field of the header is "gb" instead of uk.
+																								3)Changed the length of SAP RAR Service ID, SAP RAR Device ID, SAP RAR Material Right ID, SAP RAR
+                                                                                                   Rebate  ID, SAP RAR Fund ID, SAP RAR Leasing ID and SAP RAR Fee ID fields from string(15) to string(16)
+																								4) sourceCompanyCodeType with length(4) was added
+v1.9		miguel.b.gutierrez@accenture.com			 02-Sep-2016		Updated XSD with respect to v1.3 of D04d:
+                                                                                                1) "iFRS15SAPRARContractId" common type changed to "iFRS15SAPRARContractID"
+																								2)"deviceStartDate" and "deviceEndDate" Common Types included
+v2.0		arindam.hazra@accenture.com			     07-Oct-2016		Updated below in XSD with respect to v2.0 of D04d:
+																							   1)"serviceType" and "activatedServices" and "serviceTransferDate" and "unfreezeType" Common Types included
+                                                                                                2)deviceTimeUnitType in common types Common Types included
+                                                                                                3)revisedRebateEndDate  Common Types included
+                                                                                                4)revisedFundEndDate Common Types included
+                                                                                                5)revisedEndDateType,revisedServiceEndDateEstimated,revisedDeviceEndDateType Common Types included
+                                                                                                6)revisedMateralRightEndDate changed to revisedMaterialRightEndDate due to typo
+                                                                                                7)sAPRARDocumentType defined in Common Types
+                                                                                                8)leasingIDType,leasingTypeType,leasingDateType,leasingDateType,leasedAssetFairValueType removed from
+                                                                                                   common types
+                                                                                                9)Description of “Source Event” field of the header updated
+                                                                                                
+v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)Below Common types has been included for Cost array
+                    wBSDimentions,costFunctionalAreaType,costID,costEndDate,revisedCostEndDate,costAmount,sAPRARCostID,costType,referenceAccount,serviceIDDeviceID,costCode,costStartDate,costTransferDate,costInternalOrder,invoicedCostAmount
+                    								   2) Updated the field description for fileSequenceID in the Header tag.
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:sim="http://ifrs.vodafone.com/simpleTypes_v3" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" targetNamespace="http://ifrs.vodafone.com/commonTypes_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<xs:import namespace="http://ifrs.vodafone.com/simpleTypes_v3" schemaLocation="ifrs15_simpletypes_v3.xsd"/>
+	<!-- ================== File validation elements ======================== -->
+	<xs:complexType name="fileHeaderComplexType">
+		<xs:sequence>
+			<xs:element name="fileName" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Description: name of the file according to the naming guidelines included in the D04d "Index" tab</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="createdAt" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Description: Date and time when the file is provided by the LMs in timestamp format: yyyy-mm-ddThh:mm:ss </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fileSequenceID" type="xs:integer" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Description: File sequence ID as per the sequence number mentioned in the file name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceEvent" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The Interface name (e.g. CON_Inception, CON_Add_Goods_Services, CON_Fulfilment, CON_Price_Change, CON_Remove_Goods_Services,         CON_Termination, CON_Bill_Run_Reconciliation, CON_Contract_Freeze, CON_Contract_Unfreeze, CON_Usage, CON_Update, ENT_Inception, ENT_Add_Goods_Services, ENT_Fulfilment, ENT_Price_Change, ENT_Remove_Goods_Services, ENT_Termination, ENT_Bill_Run_Reconciliation, ENT_Contract_Freeze, ENT_Contract_Unfreeze, ENT_Usage, ENT_Update) as per the defined event types / interfaces in the Index of D04d</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceOpco" type="xs:string" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Description: Identifies the Country Code. Country Code ISO 3166 - Alpha-2 code to be used in lowercase.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fileFooterComplexType">
+		<xs:sequence>
+			<xs:element name="numberRecords" type="xs:integer" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Description: Number of source Events contained within the file</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- ================== Common Data Elements ======================= -->
+	<xs:simpleType name="amountLCType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="currencyLCType">
+		<xs:restriction base="sim:string3"/>
+	</xs:simpleType>
+	<xs:simpleType name="amountGCType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="currencyGCType">
+		<xs:restriction base="sim:string3"/>
+	</xs:simpleType>
+	<xs:simpleType name="periodType">
+		<xs:restriction base="sim:gYearMonth"/>
+	</xs:simpleType>
+	<xs:simpleType name="pOBTypeType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="effectiveQuantityType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="fulfilmentQuantityType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="eventTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="eventDateType">
+		<xs:restriction base="sim:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="eventContractIDType">
+		<xs:restriction base="sim:string20"/>
+	</xs:simpleType>
+	<xs:simpleType name="iFRS15SynonymIDType">
+		<xs:restriction base="sim:string30"/>
+	</xs:simpleType>
+	<xs:simpleType name="companyCodeType">
+		<xs:restriction base="sim:string4"/>
+	</xs:simpleType>
+	<xs:simpleType name="contractDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="contractTimeUnitType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="iFRS15ContractTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="businessAreaType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="subAreaType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="firstPlanBillingDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="financingDiscountRateType">
+		<xs:restriction base="sim:decimal5"/>
+	</xs:simpleType>
+	<xs:simpleType name="catchUpIndicatorType">
+		<xs:restriction base="sim:x"/>
+	</xs:simpleType>
+	<xs:simpleType name="billingTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceCodeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceTransferDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="billingAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceInBundleBillingAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceInBundleBillingAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="materialRightInBundleBillingAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="oneOffPaymentTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="oneOffPaymentAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="lMSpecificMiDimensionsType">
+		<xs:restriction base="sim:string255"/>
+	</xs:simpleType>
+	<xs:simpleType name="customerTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="customerType">
+		<xs:restriction base="sim:string3"/>
+	</xs:simpleType>
+	<xs:simpleType name="callOriginDestinationType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="channelType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="segmentType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="bearerTechnologyType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="valueTierType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="propositionType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceTechnologyType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="spare1Type">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="spare2Type">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="brandType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="documentTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="tradingPartnerType">
+		<xs:restriction base="sim:string6"/>
+	</xs:simpleType>
+	<xs:simpleType name="batchType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="valuationTypeType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="sSPType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceQuantityType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="discountIndicatorType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="averageDiscountFactorType">
+		<xs:restriction base="sim:decimal5"/>
+	</xs:simpleType>
+	<xs:simpleType name="profitCenterType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="excludeFromAllocationType">
+		<xs:restriction base="sim:x"/>
+	</xs:simpleType>
+	<xs:simpleType name="referenceAccountType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="pOBNameType">
+		<xs:restriction base="sim:string30"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceCodeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceTimeUnitType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceEndDateEstimatedType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="maxRolloverPeriodType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="inbundleAllowanceTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="inbundleAllowanceValueType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceQuantityType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="hybridCreditPerTimeUnitType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="hybridCreditTimeUnitType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="materialRightIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="materialRightCodeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="materialRightDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="materialRightValueType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="likelihoodOfExcerciseType">
+		<xs:restriction base="sim:decimal5"/>
+	</xs:simpleType>
+	<xs:simpleType name="timeLimitType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="trueUpFrequencyType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="currencyType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AED"/>
+			<xs:enumeration value="ALL"/>
+			<xs:enumeration value="AMD"/>
+			<xs:enumeration value="ANG"/>
+			<xs:enumeration value="AOA"/>
+			<xs:enumeration value="ARS"/>
+			<xs:enumeration value="AUD"/>
+			<xs:enumeration value="AWG"/>
+			<xs:enumeration value="AZN"/>
+			<xs:enumeration value="BAM"/>
+			<xs:enumeration value="BBD"/>
+			<xs:enumeration value="BDT"/>
+			<xs:enumeration value="BGN"/>
+			<xs:enumeration value="BHD"/>
+			<xs:enumeration value="BIF"/>
+			<xs:enumeration value="BMD"/>
+			<xs:enumeration value="BND"/>
+			<xs:enumeration value="BOB"/>
+			<xs:enumeration value="BOV"/>
+			<xs:enumeration value="BRL"/>
+			<xs:enumeration value="BSD"/>
+			<xs:enumeration value="BTN"/>
+			<xs:enumeration value="BWP"/>
+			<xs:enumeration value="BYR"/>
+			<xs:enumeration value="BZD"/>
+			<xs:enumeration value="CAD"/>
+			<xs:enumeration value="CDF"/>
+			<xs:enumeration value="CHE"/>
+			<xs:enumeration value="CHF"/>
+			<xs:enumeration value="CHW"/>
+			<xs:enumeration value="CLF"/>
+			<xs:enumeration value="CLP"/>
+			<xs:enumeration value="CNY"/>
+			<xs:enumeration value="COP"/>
+			<xs:enumeration value="COU"/>
+			<xs:enumeration value="CRC"/>
+			<xs:enumeration value="CUC"/>
+			<xs:enumeration value="CUP"/>
+			<xs:enumeration value="CVE"/>
+			<xs:enumeration value="CZK"/>
+			<xs:enumeration value="DJF"/>
+			<xs:enumeration value="DKK"/>
+			<xs:enumeration value="DOP"/>
+			<xs:enumeration value="DZD"/>
+			<xs:enumeration value="EGP"/>
+			<xs:enumeration value="ERN"/>
+			<xs:enumeration value="ETB"/>
+			<xs:enumeration value="EUR"/>
+			<xs:enumeration value="FJD"/>
+			<xs:enumeration value="FKP"/>
+			<xs:enumeration value="GBP"/>
+			<xs:enumeration value="GEL"/>
+			<xs:enumeration value="GHS"/>
+			<xs:enumeration value="GIP"/>
+			<xs:enumeration value="GMD"/>
+			<xs:enumeration value="GNF"/>
+			<xs:enumeration value="GTQ"/>
+			<xs:enumeration value="GYD"/>
+			<xs:enumeration value="HKD"/>
+			<xs:enumeration value="HNL"/>
+			<xs:enumeration value="HRK"/>
+			<xs:enumeration value="HTG"/>
+			<xs:enumeration value="HUF"/>
+			<xs:enumeration value="IDR"/>
+			<xs:enumeration value="ILS"/>
+			<xs:enumeration value="INR"/>
+			<xs:enumeration value="IQD"/>
+			<xs:enumeration value="IRR"/>
+			<xs:enumeration value="ISK"/>
+			<xs:enumeration value="JMD"/>
+			<xs:enumeration value="JOD"/>
+			<xs:enumeration value="JPY"/>
+			<xs:enumeration value="KES"/>
+			<xs:enumeration value="KGS"/>
+			<xs:enumeration value="KHR"/>
+			<xs:enumeration value="KMF"/>
+			<xs:enumeration value="KPW"/>
+			<xs:enumeration value="KRW"/>
+			<xs:enumeration value="KWD"/>
+			<xs:enumeration value="KYD"/>
+			<xs:enumeration value="KZT"/>
+			<xs:enumeration value="LAK"/>
+			<xs:enumeration value="LBP"/>
+			<xs:enumeration value="LKR"/>
+			<xs:enumeration value="LRD"/>
+			<xs:enumeration value="LSL"/>
+			<xs:enumeration value="LYD"/>
+			<xs:enumeration value="MAD"/>
+			<xs:enumeration value="MDL"/>
+			<xs:enumeration value="MGA"/>
+			<xs:enumeration value="MKD"/>
+			<xs:enumeration value="MMK"/>
+			<xs:enumeration value="MNT"/>
+			<xs:enumeration value="MOP"/>
+			<xs:enumeration value="MRO"/>
+			<xs:enumeration value="MUR"/>
+			<xs:enumeration value="MVR"/>
+			<xs:enumeration value="MWK"/>
+			<xs:enumeration value="MXN"/>
+			<xs:enumeration value="MXV"/>
+			<xs:enumeration value="MYR"/>
+			<xs:enumeration value="MZN"/>
+			<xs:enumeration value="NAD"/>
+			<xs:enumeration value="NGN"/>
+			<xs:enumeration value="NIO"/>
+			<xs:enumeration value="NOK"/>
+			<xs:enumeration value="NPR"/>
+			<xs:enumeration value="NZD"/>
+			<xs:enumeration value="OMR"/>
+			<xs:enumeration value="PAB"/>
+			<xs:enumeration value="PEN"/>
+			<xs:enumeration value="PGK"/>
+			<xs:enumeration value="PHP"/>
+			<xs:enumeration value="PKR"/>
+			<xs:enumeration value="PLN"/>
+			<xs:enumeration value="PYG"/>
+			<xs:enumeration value="QAR"/>
+			<xs:enumeration value="RON"/>
+			<xs:enumeration value="RSD"/>
+			<xs:enumeration value="RUB"/>
+			<xs:enumeration value="RWF"/>
+			<xs:enumeration value="SAR"/>
+			<xs:enumeration value="SBD"/>
+			<xs:enumeration value="SCR"/>
+			<xs:enumeration value="SDG"/>
+			<xs:enumeration value="SEK"/>
+			<xs:enumeration value="SGD"/>
+			<xs:enumeration value="SHP"/>
+			<xs:enumeration value="SLL"/>
+			<xs:enumeration value="SOS"/>
+			<xs:enumeration value="SRD"/>
+			<xs:enumeration value="SSP"/>
+			<xs:enumeration value="STD"/>
+			<xs:enumeration value="SVC"/>
+			<xs:enumeration value="SYP"/>
+			<xs:enumeration value="SZL"/>
+			<xs:enumeration value="THB"/>
+			<xs:enumeration value="TJS"/>
+			<xs:enumeration value="TMT"/>
+			<xs:enumeration value="TND"/>
+			<xs:enumeration value="TOP"/>
+			<xs:enumeration value="TRY"/>
+			<xs:enumeration value="TTD"/>
+			<xs:enumeration value="TWD"/>
+			<xs:enumeration value="TZS"/>
+			<xs:enumeration value="UAH"/>
+			<xs:enumeration value="UGX"/>
+			<xs:enumeration value="USD"/>
+			<xs:enumeration value="USN"/>
+			<xs:enumeration value="UYI"/>
+			<xs:enumeration value="UYU"/>
+			<xs:enumeration value="UZS"/>
+			<xs:enumeration value="VEF"/>
+			<xs:enumeration value="VND"/>
+			<xs:enumeration value="VUV"/>
+			<xs:enumeration value="WST"/>
+			<xs:enumeration value="XAF"/>
+			<xs:enumeration value="XAG"/>
+			<xs:enumeration value="XAU"/>
+			<xs:enumeration value="XBA"/>
+			<xs:enumeration value="XBB"/>
+			<xs:enumeration value="XBC"/>
+			<xs:enumeration value="XBD"/>
+			<xs:enumeration value="XCD"/>
+			<xs:enumeration value="XDR"/>
+			<xs:enumeration value="XOF"/>
+			<xs:enumeration value="XPD"/>
+			<xs:enumeration value="XPF"/>
+			<xs:enumeration value="XPT"/>
+			<xs:enumeration value="XSU"/>
+			<xs:enumeration value="XTS"/>
+			<xs:enumeration value="XUA"/>
+			<xs:enumeration value="XXX"/>
+			<xs:enumeration value="YER"/>
+			<xs:enumeration value="ZAR"/>
+			<xs:enumeration value="ZMW"/>
+			<xs:enumeration value="ZWL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="rebateIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="rebateDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="annualRebateValueType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="rebateTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="fundIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="fundDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="fundTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="fundAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="amountOfTechFundUtilisedByCustomerExpectedType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="financeChargeType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="paymentDueDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="billDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="invoiceNumberType">
+		<xs:restriction base="sim:string20"/>
+	</xs:simpleType>
+	<xs:simpleType name="rebateAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="terminationReasonType">
+		<xs:restriction base="sim:string3"/>
+	</xs:simpleType>
+	<xs:simpleType name="deliveryNumberType">
+		<xs:restriction base="sim:string20"/>
+	</xs:simpleType>
+	<xs:simpleType name="removeDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="feeIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="feeTypeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="feeAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="revenueMonthType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revenueAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="plannedMonthType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="plannedAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="iFRS15SAPRARContractIDType">
+		<xs:restriction base="sim:string14"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceConsumptionUsageValueType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceConsumptionUsageTypeType">
+		<xs:restriction base="sim:string3"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceConsumptionUsageDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="totalUsageType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="connectionsWithExcessUsageType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="contractFreezeTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedServiceEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="effectivePriceChangeDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="indirectChannelTariffEqualisationFactorType">
+		<xs:restriction base="sim:decimal5"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARRebateIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARLeasingIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARFundIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARFeeIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARMaterialRightIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARServiceIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARDeviceIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="salesOrgType">
+		<xs:restriction base="sim:string4"/>
+	</xs:simpleType>
+	<xs:simpleType name="salesOfficeType">
+		<xs:restriction base="sim:string4"/>
+	</xs:simpleType>
+	<xs:simpleType name="orderNumberType">
+		<xs:restriction base="sim:string12"/>
+	</xs:simpleType>
+	<xs:simpleType name="functionalAreaType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceUsageTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="gLDocumentIDType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="postingCategoryCodeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="conditionTypeType">
+		<xs:restriction base="sim:string4"/>
+	</xs:simpleType>
+	<xs:simpleType name="gLAccountType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="gLDocumentType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="accountDescriptionType">
+		<xs:restriction base="sim:string20"/>
+	</xs:simpleType>
+	<xs:simpleType name="debitCreditType">
+		<xs:restriction base="sim:string1"/>
+	</xs:simpleType>
+	<xs:simpleType name="postingDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="documentDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="costCenterType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="internalOrderType">
+		<xs:restriction base="sim:string12"/>
+	</xs:simpleType>
+	<xs:simpleType name="legacyContractIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="amountTCType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="lMItemIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARPOBIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="currencyTCType">
+		<xs:restriction base="sim:string3"/>
+	</xs:simpleType>
+	<xs:simpleType name="sourceCompanyCodeType">
+		<xs:restriction base="sim:string4"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceStartDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="activatedServicesType">
+		<xs:restriction base="sim:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceTransferDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="deviceTimeUnitType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARDocumentTypeType">
+		<xs:restriction base="sim:string2"/>
+	</xs:simpleType>
+	<xs:simpleType name="unfreezeTypeType">
+		<xs:restriction base="sim:string1"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedMaterialRightEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedRebateEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedFundEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedServiceEndDateEstimatedType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedDeviceEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="wBSDimentionsType">
+		<xs:restriction base="sim:string24"/>
+	</xs:simpleType>
+	<xs:simpleType name="costIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="costEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="revisedCostEndDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="costAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+	<xs:simpleType name="sAPRARCostIDType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="costTypeType">
+		<xs:restriction base="sim:string4"/>
+	</xs:simpleType>
+	<xs:simpleType name="costReferenceAccountType">
+		<xs:restriction base="sim:string10"/>
+	</xs:simpleType>
+	<xs:simpleType name="serviceIDDeviceIDType">
+		<xs:restriction base="sim:string15"/>
+	</xs:simpleType>
+	<xs:simpleType name="costCodeType">
+		<xs:restriction base="sim:string40"/>
+	</xs:simpleType>
+	<xs:simpleType name="costStartDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="costTransferDateType">
+		<xs:restriction base="sim:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="costFunctionalAreaType">
+		<xs:restriction base="sim:string16"/>
+	</xs:simpleType>
+	<xs:simpleType name="costInternalOrderType">
+		<xs:restriction base="sim:string12"/>
+	</xs:simpleType>
+	<xs:simpleType name="invoicedCostAmountType">
+		<xs:restriction base="sim:decimal23"/>
+	</xs:simpleType>
+</xs:schema>

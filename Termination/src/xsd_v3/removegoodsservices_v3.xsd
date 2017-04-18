@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by Arindam (Accenture Services Pvt Ltd) -->
+<!--
+=============================================================================================
+Interface Name: RemoveGoodsServices
+
+Version control
+===========
+
+v1.0		m.ashok.ujjanakoppa@accenture.com	18-May-2016		XSD file generated for RemoveGoodsServices Event present in D04d v.12 Design Deliverable
+			m.ashok.ujjanakoppa@accenture.com  	20-May-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v.014
+			m.ashok.ujjanakoppa@accenture.com  	24-May-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v.015	
+			m.ashok.ujjanakoppa@accenture.com  	25-May-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v.016
+			m.ashok.ujjanakoppa@accenture.com  	27-May-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v.017
+			miguel.b.gutierrez@accenture.com  	    01-Jun-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v.018
+			miguel.b.gutierrez@accenture.com  	    10-Jun-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v.019
+			miguel.b.gutierrez@accenture.com  	     01-Jul-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v1.0
+			miguel.b.gutierrez@accenture.com  	    05-Aug-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v1.1
+			miguel.b.gutierrez@accenture.com  	    19-Aug-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v1.2
+			miguel.b.gutierrez@accenture.com  	    02-Sep-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v1.3
+v2.0		arindam.hazra@accenture.com			    07-Oct-2016		No new impacts in Remove Goods/Services XSD in the latest version of D04d v2.0
+                                                                                                  
+v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)Cost array introduced as per d04d v3.0
+
+=============================================================================================
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" xmlns:tns="http://ifrs15.vodafone.com/events/removegoodsservices_v3" targetNamespace="http://ifrs15.vodafone.com/events/removegoodsservices_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">
+	<xs:import namespace="http://ifrs.vodafone.com/commonTypes_v3" schemaLocation="ifrs15_commontypes_v3.xsd"/>
+	<xs:element name="RemoveGoodsServices">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header" type="com:fileHeaderComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Data" type="tns:removeGoodsServicesComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Footer" type="com:fileFooterComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="removeGoodsServicesComplexType">
+		<xs:sequence>
+			<xs:element name="RemoveGoodsServices" type="tns:removeGoodsServiceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="removeGoodsServiceComplexType">
+		<xs:sequence>
+			<xs:element name="eventType" type="com:eventTypeType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventDate" type="com:eventDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="eventContractID" type="com:eventContractIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DeviceList" type="tns:deviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ServiceList" type="tns:serviceListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CostList" type="tns:costListComplexType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Device" type="tns:deviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="deviceComplexType">
+		<xs:sequence>
+			<xs:element name="deviceID" type="com:deviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="removeDate" type="com:removeDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceListComplexType">
+		<xs:sequence>
+			<xs:element name="Service" type="tns:serviceComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceComplexType">
+		<xs:sequence>
+			<xs:element name="serviceID" type="com:serviceIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="serviceEndDate" type="com:serviceDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="costListComplexType">
+		<xs:sequence>
+			<xs:element name="Cost" type="tns:costComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="costComplexType">
+		<xs:sequence>
+			<xs:element name="costID" type="com:costIDType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="costEndDate" type="com:costEndDateType" nillable="false" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="companyCode" type="com:companyCodeType" nillable="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
