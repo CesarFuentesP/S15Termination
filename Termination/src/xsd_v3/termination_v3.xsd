@@ -23,6 +23,7 @@ v1.2 		m.ashok.ujjanakoppa@accenture.com	24-May-2016		XSD is updated with respec
 			miguel.b.gutierrez@accenture.com  	    02-Sep-2016		No new impacts in Termination XSD in the latest version of D04d v1.3
 v2.0		arindam.hazra@accenture.com  	            07-Oct-2016		No new impacts in Termination XSD in the latest version of D04d v2.0
 v3.0		arindam.hazra@accenture.com  	            31-Jan-2017		No new impacts in Termination XSD in the latest version of D04d v3.0
+V3.1            arindam.hazra@accenture.com                 03-may-2017         No new impacts in Termination XSD in the latest version of D04d v3.1
 
 =============================================================================================
 -->
@@ -32,12 +33,12 @@ v3.0		arindam.hazra@accenture.com  	            31-Jan-2017		No new impacts in T
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="Header" type="com:fileHeaderComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
-				<xs:element name="Data" type="tns:terminationsComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Data" type="tns:termiantionsComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="Footer" type="com:fileFooterComplexType" nillable="false" minOccurs="1" maxOccurs="1"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="terminationsComplexType">
+	<xs:complexType name="termiantionsComplexType">
 		<xs:sequence>
 			<xs:element name="Termination" type="tns:terminationComplexType" nillable="false" minOccurs="1" maxOccurs="unbounded"/>
 		</xs:sequence>

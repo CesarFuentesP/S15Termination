@@ -1,7 +1,10 @@
 package com.vsf;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,23 +13,30 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
-import com.vsf.S15.Termination.FeeComplexType;
-import com.vsf.S15.Termination.TerminationComplexType;
-import com.vsf.S15.Termination.Terminations;
+import org.xml.sax.SAXException;
+
 import com.vsf.S15.Termination.*;
 
 public class Utiles {
@@ -43,7 +53,7 @@ public class Utiles {
 
 	// Devuelve la fecha de text como tipo XMLGregorianCalendar
 	public static XMLGregorianCalendar FechaXML(String FechaTxt) throws DatatypeConfigurationException{
-		DateFormat dateFormat = new SimpleDateFormat("yyyymmdd");
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date Fecha = null ;
 		// Temporal
 		//if (FechaTxt.equals("")){
@@ -58,9 +68,33 @@ public class Utiles {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(Fecha);
 		XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+		date2.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+		date2.setTimezone(DatatypeConstants.FIELD_UNDEFINED);
 		return date2;
 	}
 
+	// Devuelve la fecha de text como tipo XMLGregorianCalendar
+		public static XMLGregorianCalendar TimeXML(String FechaTxt) throws DatatypeConfigurationException{
+			DateFormat timeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date Fecha = null ;
+			// Temporal
+			//if (FechaTxt.equals("")){
+			//	FechaTxt="17540303";
+			//}
+			//
+			try {
+				Fecha=timeFormat.parse(FechaTxt);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			GregorianCalendar c = new GregorianCalendar();
+			c.setTime(Fecha);
+			XMLGregorianCalendar date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+			date2.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);
+			date2.setTimezone(DatatypeConstants.FIELD_UNDEFINED);
+			return date2;
+		}
+	
 	public static BigDecimal DecimalXML(String ImporteTxt){
 		// Temporal
 		//	if (ImporteTxt.equals("")){
@@ -96,16 +130,30 @@ public class Utiles {
 	}
 
 
-	public static void GeneraTerminations ( Terminations s15Terminations, String ficheroSalidaXML, int numfichero) throws JAXBException{
+	public static void GeneraTerminations ( Terminations s15Terminations, String ficheroSalidaXML, String log_file) throws JAXBException, IOException{
 
-		String sufijofileXML=String.valueOf(numfichero);
-		String XMLFile=ficheroSalidaXML+"_"+sufijofileXML+".xml";
-		File ficheroXML= new File(XMLFile);
+		File ficheroXML= new File(ficheroSalidaXML);
+		System.out.println("   Extracting file " + ficheroSalidaXML);
 		JAXBContext contexto = JAXBContext.newInstance(s15Terminations.getClass() );
 		Marshaller marshaller = contexto.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
 				Boolean.TRUE);
+		marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, 
+				"http://ifrs15.vodafone.com/events/termination_v3 termination_v3.xsd");
 		marshaller.marshal(s15Terminations,ficheroXML);	
+		try {
+		    String schemaLang = "http://www.w3.org/2001/XMLSchema";
+		    SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
+		    JAXBSource source = new JAXBSource(contexto, s15Terminations);
+		    Schema schema = factory.newSchema(new File("src\\xsd_v3\\termination_v3.xsd"));
+		    Validator validator = schema.newValidator();
+		    validator.validate(source);
+		} catch (SAXException e) {
+			writeFile(log_file, "Error while validating file "+ficheroSalidaXML+" :" + e.getCause() + "\n");
+		    //System.out.println(" sax exception :" + e.getCause());
+		} catch (Exception ex) {
+			writeFile(log_file, "excep :" + ex.getMessage());
+		}
 	}
 
 	public static boolean CambioContrato(String ContractA, String ContractB){
@@ -122,12 +170,12 @@ public class Utiles {
 			String f_eventType, String f_eventDate, String f_eventContractID, String f_contractEndDate,
 			String f_terminationReason, String f_companyCode) throws DatatypeConfigurationException{
 
-		Contrato.setEventType(f_eventType);
-		Contrato.setEventDate(FechaXML(f_eventDate));
-		Contrato.setEventContractID(f_eventContractID);
-		Contrato.setContractEndDate(FechaXML(f_contractEndDate));
-		Contrato.setTerminationReason(f_terminationReason);
-		Contrato.setCompanyCode(f_companyCode);
+		if (f_eventType.length()!=0) Contrato.setEventType(f_eventType);
+		if (f_eventDate.length()!=0) Contrato.setEventDate(FechaXML(f_eventDate));
+		if (f_eventContractID.length()!=0) Contrato.setEventContractID(f_eventContractID);
+		if (f_contractEndDate.length()!=0) Contrato.setContractEndDate(FechaXML(f_contractEndDate));
+		if (f_terminationReason.length()!=0) Contrato.setTerminationReason(f_terminationReason);
+		if (f_companyCode.length()!=0) Contrato.setCompanyCode(f_companyCode);
 	}
 
 
@@ -138,13 +186,13 @@ public class Utiles {
 
 		BigDecimal Importe = new BigDecimal(f_FEE_amount);
 
-		Fee.setFeeID(f_FEE_id);
-		Fee.setFeeType(f_FEE_type);
-		Fee.setFeeAmount(Importe);
-		Fee.setProfitCenter(f_FEE_profitCenter);
-		Fee.setReferenceAccount(f_FEE_referenceAccount);
-		Fee.setPOBName(f_FEE_POBname);
-		Fee.setCurrency(CurrencyType.fromValue(f_FEE_currency));
+		if (f_FEE_id.length()!=0) Fee.setFeeID(f_FEE_id);
+		if (f_FEE_type.length()!=0) Fee.setFeeType(f_FEE_type);
+		if (f_FEE_amount.length()!=0) Fee.setFeeAmount(Importe);
+		if (f_FEE_profitCenter.length()!=0) Fee.setProfitCenter(f_FEE_profitCenter);
+		if (f_FEE_referenceAccount.length()!=0) Fee.setReferenceAccount(f_FEE_referenceAccount);
+		if (f_FEE_POBname.length()!=0) Fee.setPOBName(f_FEE_POBname);
+		if (f_FEE_currency.length()!=0) Fee.setCurrency(CurrencyType.fromValue(f_FEE_currency));
 
 	}
 
@@ -232,28 +280,119 @@ public class Utiles {
 
 
 	}
+	
+	
+	public static void AddHeaderAttrib(FileHeaderComplexType fileHeader, String consumerType, String countryCode, String eventType,
+			Date currentDate, Calendar cal, long l, String sourceEvent, String sourceOpCo) throws DatatypeConfigurationException {
+		// TODO Auto-generated method stub
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		DateFormat timeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		String filename=consumerType+"_"+countryCode+"_"+eventType+"_"+dateFormat.format(currentDate)+"_"+l+".xml";
+		
+		BigInteger seqNumber = BigInteger.valueOf(l);
+		
+		fileHeader.setFileName(filename);
+		fileHeader.setCreatedAt(Utiles.TimeXML(timeFormat.format(cal.getTime())));
+		fileHeader.setFileSequenceID(seqNumber);
+		fileHeader.setSourceEvent(sourceEvent);
+		fileHeader.setSourceOpco(sourceOpCo);
+		
+	}
+	
+	
+	public static void writeFile(String filename, String line) throws IOException {
+		// TODO Auto-generated method stub
+	    line = line.replace(";null",";");
+	    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+	    fw.write(line);//appends the string to the file
+	    fw.close();	
+	}
 
-	//	public static void addDeviceAtrib(DeviceComplexType Device, String s_CD_POB, String s_ID_Unico, String s_StartDate, String s_EndDate) throws DatatypeConfigurationException{
-
-	//		Device.setDeviceCode(s_CD_POB);
-	//		Device.setDeviceID(s_ID_Unico);
-	//		Device.setDeviceTransferDate(FechaXML(s_StartDate));
-
-
-
-	//}
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	public static HashMap<String, Integer> getSeqID (String seq_file) throws NumberFormatException, IOException{
+		
+		String linea_seq;
+		String[]Campos_seq;
+		HashMap<String, Integer> SeqIDs = new HashMap<String, Integer>();
+		try {
+			BufferedReader reader =	new BufferedReader(new	FileReader(seq_file));
+			while((linea_seq = reader.readLine())!=null) {
+				Campos_seq = linea_seq.split(";"); // Deconstruyo el registro en campos
+				SeqIDs.put(Campos_seq[0], new Integer(Campos_seq[1]));
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("File "+seq_file+" not found.");
+			//e.printStackTrace();		
+		}
+		
+		return SeqIDs;
+		
+	}
+	
+	public static void updateSeqID(String filename, HashMap<String, Integer> oldSeqs, HashMap<String, Integer> newSeqs) throws IOException {
+		// TODO Auto-generated method stub
+		
+	    FileWriter fw = new FileWriter(filename,false); //the true will append the new data
+		String header = "/* *************************************************************************************** */\r\n" + 
+				"/* [SCRIPT_NAME]     :TWU15Y12.sql                                                         */\r\n" + 
+				"/* [CREATOR]         :TERADATA                                                             */\r\n" + 
+				"/* [CREATED_DATE]    :20170516                                                             */\r\n" + 
+				"/* [CHANGED DATE]    :                                                                     */\r\n" + 
+				"/* [DESCRIPTIOND]    :Actualización de IDs de secuencia en la tabla S15_X_SEQUENCEID       */\r\n" + 
+				"/* *************************************************************************************** */\r\n" + 
+				"\r\n" + 
+				".SIDETITLES\r\n" + 
+				".REMARK '################################################################################'\r\n" + 
+				".REMARK '#            ACTUALIZACION DE LA TABLA S15_X_SEQUENCEID                        #'\r\n" + 
+				".REMARK '################################################################################'\r\n" + 
+				"  \r\n" + 
+				"  ";
+		
+		String footer = ".IF ERRORCODE= 0  THEN .GOTO CONTINUAR_2\r\n" + 
+				".REMARK '################################################################################'\r\n" + 
+				".REMARK '#       ERROR EN LA ACTUALIZACION DE LA TABLA S15_X_SEQUENCEID                 #'\r\n" + 
+				".REMARK '################################################################################'\r\n" + 
+				".QUIT ${ERROR_INSERT}\r\n" + 
+				"\r\n" + 
+				".LABEL CONTINUAR_2\r\n" + 
+				"\r\n" + 
+				".REMARK '################################################################################'\r\n" + 
+				".REMARK '# PROCESO TWU15Y12 FINALIZADO CORRECTAMENTE                                    #'\r\n" + 
+				".REMARK '################################################################################'\r\n" + 
+				"\r\n" + 
+				".QUIT ${OK}\r\n" + 
+				"\r\n" + 
+				"/*==============================================================*/\r\n" + 
+				"/* End job                                                      */\r\n" + 
+				"/*==============================================================*/\r\n" + 
+				"  \r\n" + 
+				"";
+	    
+		fw.write(header);
+		
+	    Date FechaActual=new Date();
+	    String modifiedDate= new SimpleDateFormat("yyyyMMdd").format(FechaActual);
+	    java.util.Iterator<Entry<String, Integer>> itOldSeqs = oldSeqs.entrySet().iterator();
+	    while (itOldSeqs.hasNext()) {
+	    	String key = itOldSeqs.next().getKey();
+	    	
+	    	if (!oldSeqs.get(key).equals(newSeqs.get(key))){
+	    		String update="UPDATE ${DBDWH}.S15_X_SEQUENCEID SET ESTADO_REGISTRO='M', FX_FIN_VIGENCIA='"+modifiedDate+
+	    				"' WHERE VARNAME='"+key+"' AND FX_FIN_VIGENCIA='35000101' ;\r\n" ;
+	    		String insert="INSERT INTO ${DBDWH}.S15_X_SEQUENCEID (VARNAME, VARVALUE, "
+	    				+ "FX_INICIO_VIGENCIA, FX_FIN_VIGENCIA, ESTADO_REGISTRO, FX_CARGA)\r\n"
+	    				+ "	VALUES	('"+key+"', '"+ newSeqs.get(key).toString() +"' , '" + modifiedDate+ "', '35000101', 'A', '"
+	    				+ modifiedDate +"');\r\n\r\n" ;
+	    		fw.write(update);
+	    		fw.write(insert);
+	    	}
+	    }
+	    fw.write(footer);
+	    fw.close();	
+	}
 
 
 }

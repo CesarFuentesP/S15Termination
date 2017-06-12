@@ -26,6 +26,7 @@ v2.0		arindam.hazra@accenture.com			   07-Oct-2016		Updated XSD with respect to 
                                                                                                      
 v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)Cost array introduced as per d04d v3.0
                                                                                                   2)PlannedCost,ActualPostedCost,CostInvoicedAmount arrays introduced on device and service array as per D04d V3.0
+V3.1    arindam.hazra@accenture.com                03-may-2017       1. No new impacts in SAP RAR Response XSD in the latest version of D04d v3.1
 
 =============================================================================================
 -->

@@ -109,6 +109,7 @@ v2.0		arindam.hazra@accenture.com			     07-Oct-2016		Updated below in XSD with 
 v3.0   arindam.hazra@accenture.com			        31-jan-2017        1)Below Common types has been included for Cost array
                     wBSDimentions,costFunctionalAreaType,costID,costEndDate,revisedCostEndDate,costAmount,sAPRARCostID,costType,referenceAccount,serviceIDDeviceID,costCode,costStartDate,costTransferDate,costInternalOrder,invoicedCostAmount
                     								   2) Updated the field description for fileSequenceID in the Header tag.
+V3.1    arindam.hazra@accenture.com                03-may-2017       1. No new impacts in Common Types XSD in the latest version of D04d v3.1
 =============================================================================================
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:sim="http://ifrs.vodafone.com/simpleTypes_v3" xmlns:com="http://ifrs.vodafone.com/commonTypes_v3" targetNamespace="http://ifrs.vodafone.com/commonTypes_v3" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.0">

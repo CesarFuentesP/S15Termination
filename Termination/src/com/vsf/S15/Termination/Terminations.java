@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.11 
 // Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2017.04.17 a las 02:02:56 PM CEST 
+// Generado el: 2017.06.06 a las 11:39:40 AM CEST 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="Header" type="{http://ifrs.vodafone.com/commonTypes_v3}fileHeaderComplexType"/&gt;
- *         &lt;element name="Data" type="{http://ifrs15.vodafone.com/events/termination_v3}terminationsComplexType"/&gt;
+ *         &lt;element name="Data" type="{http://ifrs15.vodafone.com/events/termination_v3}termiantionsComplexType"/&gt;
  *         &lt;element name="Footer" type="{http://ifrs.vodafone.com/commonTypes_v3}fileFooterComplexType"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
@@ -48,12 +48,11 @@ public class Terminations {
     @XmlElement(name = "Header", required = true)
     protected FileHeaderComplexType header;
     @XmlElement(name = "Data", required = true)
-    protected TerminationsComplexType data;
+    protected TermiantionsComplexType data;
     @XmlElement(name = "Footer", required = true)
     protected FileFooterComplexType footer;
 
-
-	/**
+    /**
      * Obtiene el valor de la propiedad header.
      * 
      * @return
@@ -82,10 +81,10 @@ public class Terminations {
      * 
      * @return
      *     possible object is
-     *     {@link TerminationsComplexType }
+     *     {@link TermiantionsComplexType }
      *     
      */
-    public TerminationsComplexType getData() {
+    public TermiantionsComplexType getData() {
         return data;
     }
 
@@ -94,10 +93,10 @@ public class Terminations {
      * 
      * @param value
      *     allowed object is
-     *     {@link TerminationsComplexType }
+     *     {@link TermiantionsComplexType }
      *     
      */
-    public void setData(TerminationsComplexType value) {
+    public void setData(TermiantionsComplexType value) {
         this.data = value;
     }
 
