@@ -3,7 +3,9 @@ package com.vsf;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.zip.GZIPOutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -141,6 +144,8 @@ public class Utiles {
 		marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, 
 				"http://ifrs15.vodafone.com/events/termination_v3 termination_v3.xsd");
 		marshaller.marshal(s15Terminations,ficheroXML);	
+		compressGzipFile(ficheroSalidaXML, ficheroSalidaXML+".gz");
+		ficheroXML.delete();
 		try {
 		    String schemaLang = "http://www.w3.org/2001/XMLSchema";
 		    SchemaFactory factory = SchemaFactory.newInstance(schemaLang);
@@ -155,6 +160,27 @@ public class Utiles {
 			writeFile(log_file, "excep :" + ex.getMessage());
 		}
 	}
+	
+	
+    private static void compressGzipFile(String file, String gzipFile) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            FileOutputStream fos = new FileOutputStream(gzipFile);
+            GZIPOutputStream gzipOS = new GZIPOutputStream(fos);
+            byte[] buffer = new byte[1024];
+            int len;
+            while((len=fis.read(buffer)) != -1){
+                gzipOS.write(buffer, 0, len);
+            }
+            //close resources
+            gzipOS.close();
+            fos.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
 
 	public static boolean CambioContrato(String ContractA, String ContractB){
 		if (ContractA.trim().equals(ContractB.trim()))
@@ -288,7 +314,7 @@ public class Utiles {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		DateFormat timeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String filename=consumerType+"_"+countryCode+"_"+eventType+"_"+dateFormat.format(currentDate)+"_"+l+".xml";
+		String filename="migration_"+consumerType+"_"+countryCode+"_"+eventType+"_"+dateFormat.format(currentDate)+"_nochange_"+l+".xml";
 		
 		BigInteger seqNumber = BigInteger.valueOf(l);
 		

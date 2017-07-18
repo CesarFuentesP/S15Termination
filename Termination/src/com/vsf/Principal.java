@@ -131,7 +131,7 @@ public class Principal {
 		try {
 			BufferedReader reader =	new BufferedReader(new	FileReader(Fichero));
 			while((linea = reader.readLine())!=null) {
-				Campos = linea.split(";"); 
+				Campos = linea.split(";", -1); 
 				if (!aContratcID.equals(Campos[f_eventContractID].trim())){
 					NumContratos ++;
 					
